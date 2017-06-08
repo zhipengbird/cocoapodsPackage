@@ -20,7 +20,7 @@ def fread(fname):
 
 setup (
     name='cocoa_packer',
-    version='1.1',
+    version='1.3',
     description='A cocoapods package packer',
     keywords='cocoapods  package',
     url='https://github.com/zhipengbird/cocoapodsPackage',
@@ -41,6 +41,6 @@ setup (
             'cocoa_packer = package.cocoa_package:main'
         ]
     },
-    long_description=open("README.md").read()
+    # long_description=fread("README.md")
     # install_requires =['shutil'],
 )

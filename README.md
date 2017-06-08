@@ -23,6 +23,12 @@ cocoapods_packager的使用操作可以前往[cocoapods-packager](https://github
 ```sh
 python cocoa_package.py
 ```
+或者进行工具有安装：
+```sh
+pip install cocoa_packer
+
+```
+安装完后，执行 cocoa_packer
 将会得到一个命令行的交互界面，选择要打包的格式
 ```
  please check package method

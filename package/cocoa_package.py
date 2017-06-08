@@ -44,7 +44,7 @@ def auto_analysis_spec(specfile):
         for line in file.readlines ( ):
             if '.subspec' in line:
                 line = line.replace ("'", '"')
-                match = re.findall (ur'\s+"(\w+)"\s+', line)
+                match = re.findall (ur'\s+"([\w+])"\s+', line)
                 if match is not None:
                     spec.append (match[0])
                 print (line)
@@ -196,7 +196,6 @@ def main():
         auto_create_lib ( )
     else:
         auto_create_framework ( )
-
 
 if __name__ == '__main__':
     main()
