@@ -3,32 +3,32 @@
 # @Time    : 2017/6/7 下午3:56
 # @Author  : 袁平华
 # @Site    : 
-# @File    : cocoapackage.py
+# @File    : cocoa_package.py
 # @Software: PyCharm Community Edition
 
-'''依据cocoapods的spec文件生成所有spec 或者subspec的framework'''
+"""依据 cocoapods 的spec文件生成所有spec 或者subspec的framework"""
 
 import os
 import re
 import shutil
 import sys
 
-from  pick import pick
+from pick import pick
 
-rootdir = os.getcwd ( )
+root_dir = os.getcwd ( )
 
 
-# rootdir = '/Users/yuanpinghua/Desktop/GPUImage/GPUImage'
+# root_dir = '/Users/yuanpinghua/Desktop/GPUImage/GPUImage'
 
 def auto_recogonize_spec_file():
     """
     读取当前spec文件路径
     :return: spec ,path
     """
-    for root, dirs, files in os.walk (rootdir):
+    for root, dirs, files in os.walk (root_dir):
         for file in files:
             if os.path.splitext (file)[1] == '.podspec':
-                print(os.path.join (root, file))
+                print (os.path.join (root, file))
                 return os.path.splitext (file)[0], os.path.join (root, file)
     return None, None
 
@@ -139,26 +139,26 @@ def auto_create_lib():
     生成library
     :return:
     """
-    specname, specfile = auto_recogonize_spec_file ( )
-    if specfile is None:
+    spec_name, spec_file = auto_recogonize_spec_file ( )
+    if spec_file is None:
         print ("Can't find .podspec file")
         sys.exit (1)
 
-    sublist = auto_analysis_spec (specfile)
-    version = auto_extract_version (specfile)
-    if (sublist is not None and len (sublist) > 0):
-        for subspec in sublist:
-            status = auto_package_spec ('.a', specfile, subspec)
-            print  ("status = %s" % (status))
+    sublist = auto_analysis_spec (spec_file)
+    version = auto_extract_version (spec_file)
+    if sublist is not None and len (sublist) > 0:
+        for sub_spec in sublist:
+            status = auto_package_spec ('.a', spec_file, sub_spec)
+            print ("status = %s" % status)
             if status == 0:
-                libpath = os.path.join (os.path.join (os.getcwd ( ), specname + '-' + version), 'ios')
-                auto_copy_rename_lib (libpath, specname + '_' + subspec)
+                libpath = os.path.join (os.path.join (os.getcwd ( ), spec_name + '-' + version), 'ios')
+                auto_copy_rename_lib (libpath, spec_name + '_' + sub_spec)
             else:
                 print ('package failed')
     else:
-        auto_package_spec ('.a', specfile, None)
-        libpath = os.path.join (os.path.join (rootdir, specname + '-' + auto_extract_version (specfile)), 'ios')
-        auto_copy_rename_lib (libpath, specname)
+        auto_package_spec ('.a', spec_file, None)
+        libpath = os.path.join (os.path.join (root_dir, spec_name + '-' + auto_extract_version (spec_file)), 'ios')
+        auto_copy_rename_lib (libpath, spec_name)
 
 
 def auto_create_framework():
@@ -166,29 +166,29 @@ def auto_create_framework():
     生成framework
     :return:
     """
-    specname, specfile = auto_recogonize_spec_file ( )
-    if specfile is None:
+    spec_name, spec_file = auto_recogonize_spec_file ( )
+    if spec_file is None:
         print ("Can't find .podspec file")
         sys.exit (1)
 
-    sublist = auto_analysis_spec (specfile)
-    version = auto_extract_version (specfile)
-    if (sublist is not None and len (sublist) > 0):
+    sublist = auto_analysis_spec (spec_file)
+    version = auto_extract_version (spec_file)
+    if sublist is not None and len (sublist) > 0:
         for subspec in sublist:
-            status = auto_package_spec ('.framework', specfile, subspec)
-            print  ("status = %s" % (status))
+            status = auto_package_spec ('.framework', spec_file, subspec)
+            print ("status = %s" % status)
             if status == 0:
-                libpath = os.path.join (os.path.join (os.getcwd ( ), specname + '-' + version), 'ios')
-                auto_copy_rename_framewok (libpath, specname + '_' + subspec)
+                libpath = os.path.join (os.path.join (os.getcwd ( ), spec_name + '-' + version), 'ios')
+                auto_copy_rename_framewok (libpath, spec_name + '_' + subspec)
             else:
                 print ('package failed')
     else:
-        auto_package_spec ('.framwork', specfile, None)
-        libpath = os.path.join (os.path.join (rootdir, specname + '-' + auto_extract_version (specfile)), 'ios')
-        auto_copy_rename_framewok (libpath, specname)
+        auto_package_spec ('.framwork', spec_file, None)
+        libpath = os.path.join (os.path.join (root_dir, spec_name + '-' + auto_extract_version (spec_file)), 'ios')
+        auto_copy_rename_framewok (libpath, spec_name)
 
 
-if __name__ == '__main__':
+def main():
     package_method = ['library', 'framework']
 
     method, index = pick (package_method, "please check package method", indicator='=>')
@@ -196,3 +196,7 @@ if __name__ == '__main__':
         auto_create_lib ( )
     else:
         auto_create_framework ( )
+
+
+if __name__ == '__main__':
+    main()
