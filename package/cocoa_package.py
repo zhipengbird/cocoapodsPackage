@@ -15,10 +15,10 @@ import sys
 
 from pick import pick
 
-root_dir = os.getcwd ( )
+# root_dir = os.getcwd ( )
 
 
-# root_dir = '/Users/yuanpinghua/Desktop/GPUImage/GPUImage'
+root_dir = '/Users/yuanpinghua/Desktop/GPUImage/GPUImage'
 
 def auto_recogonize_spec_file():
     """
@@ -42,10 +42,13 @@ def auto_analysis_spec(specfile):
     with open (specfile, 'r') as file:
         spec = []
         for line in file.readlines ( ):
-            if '.subspec' in line:
+            line  = line.strip()
+            if '.subspec' in line  and not line.startswith("#"):
                 line = line.replace ("'", '"')
-                match = re.findall (ur'\s+"([\w+])"\s+', line)
-                if match is not None:
+                print  (line)
+                match = re.findall (ur'\s+"(\w+)"\s+', line)
+                if len(match):
+                    print match[0]
                     spec.append (match[0])
                 print (line)
 
@@ -62,7 +65,9 @@ def auto_extract_version(specfile):
         for line in file.readlines ( ):
             if '.version' in line:
                 line = line.replace ("'", '"')
-                version = re.findall (ur'"([0-9.]*)"', line)[0]
+                version = re.findall (ur'"([\w0-9.]*)"', line)
+                if version:
+                    version = version[0]
                 return version
 
 
@@ -189,13 +194,14 @@ def auto_create_framework():
 
 
 def main():
-    package_method = ['library', 'framework']
-
-    method, index = pick (package_method, "please check package method", indicator='=>')
-    if index == 0:
-        auto_create_lib ( )
-    else:
-        auto_create_framework ( )
+    auto_create_framework ( )
+    # package_method = ['library', 'framework']
+    #
+    # method, index = pick (package_method, "please check package method", indicator='=>')
+    # if index == 0:
+    #     auto_create_lib ( )
+    # else:
+    #     auto_create_framework ( )
 
 if __name__ == '__main__':
     main()
