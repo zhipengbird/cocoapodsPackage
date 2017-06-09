@@ -15,10 +15,10 @@ import sys
 
 from pick import pick
 
-# root_dir = os.getcwd ( )
+root_dir = os.getcwd ( )
 
 
-root_dir = '/Users/yuanpinghua/Desktop/GPUImage/GPUImage'
+# root_dir = '/Users/yuanpinghua/Documents/GPUImage_spec/GPUImageBasic'
 
 def auto_recogonize_spec_file():
     """
@@ -126,13 +126,13 @@ def auto_package_spec(type, spec, subspce):
         if subspce:
             cmd = 'pod package %s --library --force --subspecs=%s ' % (spec, subspce)
         else:
-            cmd = 'pod package %s --library --force'
+            cmd = 'pod package %s --library --force' % spec
 
     else:
         if subspce:
             cmd = 'pod package %s  --force --subspecs=%s ' % (spec, subspce)
         else:
-            cmd = 'pod package %s  --force'
+            cmd = 'pod package %s  --force' % spec
 
     print (cmd)
     status = os.system (cmd)
@@ -194,14 +194,14 @@ def auto_create_framework():
 
 
 def main():
-    auto_create_framework ( )
-    # package_method = ['library', 'framework']
-    #
-    # method, index = pick (package_method, "please check package method", indicator='=>')
-    # if index == 0:
-    #     auto_create_lib ( )
-    # else:
-    #     auto_create_framework ( )
+    # auto_create_framework ( )
+    package_method = ['library', 'framework']
+
+    method, index = pick (package_method, "please check package method", indicator='=>')
+    if index == 0:
+        auto_create_lib ( )
+    else:
+        auto_create_framework ( )
 
 if __name__ == '__main__':
     main()

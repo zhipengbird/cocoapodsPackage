@@ -20,7 +20,7 @@ def fread(fname):
 
 setup (
     name='cocoa_packer',
-    version='1.5',
+    version='1.8.2',
     description='A cocoapods package packer',
     keywords='cocoapods  package',
     url='https://github.com/zhipengbird/cocoapodsPackage',
